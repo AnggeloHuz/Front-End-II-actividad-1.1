@@ -2,6 +2,7 @@ import Busqueda from "./components/Busqueda"
 import Filtrado from "./components/Filtrado"
 import Footer from "./components/Footer"
 import Nav from "./components/Nav"
+import Paginacion from "./components/Paginacion"
 import Tarjeta from "./components/Tarjeta"
 import Titulo from "./components/Titulo"
 
@@ -30,6 +31,12 @@ function App() {
             <Tarjeta />
             <Tarjeta />
             <Tarjeta />
+          </div>
+
+          <div className="py-20 flex flex-col gap-12 justify-center items-center">
+            <Paginacion />
+
+            <button className="bg-secundario text-blanco font-Roboto text-xl rounded-xl p-4 hover:bg-primario hover:text-negro transition-all duration-300">Agregar Producto</button>
           </div>
         </section>
       </main>
