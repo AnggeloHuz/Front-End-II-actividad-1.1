@@ -1,6 +1,6 @@
 import imagen from '../assets/Producto-1.jpg'
 
-function Tarjeta() {
+function Tarjeta({showModalDetails, setShowModalDetails}) {
 
     return (
         <>
@@ -32,7 +32,8 @@ function Tarjeta() {
                             Compra
                         </button>
 
-                        <button className='w-full p-2 text-blanco text-lg font-Roboto bg-llamativo rounded-lg hover:bg-negro hover:text-llamativo transition-all duration-300'>
+                        <button className='w-full p-2 text-blanco text-lg font-Roboto bg-llamativo rounded-lg hover:bg-negro hover:text-llamativo transition-all duration-300'
+                        onClick={() => setShowModalDetails(true)}>
                             Ver
                         </button>
                     </div>

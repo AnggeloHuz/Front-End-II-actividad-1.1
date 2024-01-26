@@ -7,10 +7,14 @@ import Paginacion from "./components/Paginacion"
 import Tarjeta from "./components/Tarjeta"
 import Titulo from "./components/Titulo"
 import Formulario from "./components/modals/Formulario"
+import Detalles from "./components/modals/Detalles"
+import Editar from "./components/modals/Editar"
 
 function App() {
 
   const [showModal, setShowModal] = useState(false);
+  const [showModalDetails, setShowModalDetails] = useState(false);
+  const [showModalEdit, setShowModalEdit] = useState(false);
 
 
   return (
@@ -20,6 +24,8 @@ function App() {
       <main className="w-full min-h-[100vh] p-8 flex flex-col gap-24">
 
         <Formulario showModal={showModal} setShowModal={setShowModal} />
+        <Detalles showModalDetails={showModalDetails} setShowModalDetails={setShowModalDetails} setShowModalEdit={setShowModalEdit} />
+        <Editar showModalEdit={showModalEdit} setShowModalEdit={setShowModalEdit} />
 
         <div className="flex flex-col gap-6 md:flex-row">
           <Busqueda />
@@ -30,14 +36,14 @@ function App() {
           <Titulo texto={"Productos"} />
 
           <div className="h-full w-full flex flex-col md:grid-cols-2 md:grid lg:grid-cols-4 py-8 px-4 gap-12">
-            <Tarjeta />
-            <Tarjeta />
-            <Tarjeta />
-            <Tarjeta />
-            <Tarjeta />
-            <Tarjeta />
-            <Tarjeta />
-            <Tarjeta />
+            <Tarjeta showModalDetails={showModalDetails} setShowModalDetails={setShowModalDetails} />
+            <Tarjeta showModalDetails={showModalDetails} setShowModalDetails={setShowModalDetails} />
+            <Tarjeta showModalDetails={showModalDetails} setShowModalDetails={setShowModalDetails} />
+            <Tarjeta showModalDetails={showModalDetails} setShowModalDetails={setShowModalDetails} />
+            <Tarjeta showModalDetails={showModalDetails} setShowModalDetails={setShowModalDetails} />
+            <Tarjeta showModalDetails={showModalDetails} setShowModalDetails={setShowModalDetails} />
+            <Tarjeta showModalDetails={showModalDetails} setShowModalDetails={setShowModalDetails} />
+            <Tarjeta showModalDetails={showModalDetails} setShowModalDetails={setShowModalDetails} />
           </div>
 
           <div className="py-20 flex flex-col gap-12 justify-center items-center">
