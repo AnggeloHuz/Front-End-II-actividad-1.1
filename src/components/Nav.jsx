@@ -41,17 +41,18 @@ function Nav({showModal, setShowModal}) {
                                 <a href="#navegar" className="block py-2 px-3 rounded hover:text-primario hover:bg-gray-100 lg:hover:bg-transparent transition-all duration-500">Navegar</a>
                             </li>
                             <li>
-                                <a href="#" className="block py-2 px-3 rounded hover:text-primario hover:bg-gray-100 lg:hover:bg-transparent transition-all duration-500" onClick={
+                                <a className="block py-2 px-3 rounded hover:text-primario hover:bg-gray-100 lg:hover:bg-transparent transition-all duration-500 hover:cursor-pointer" 
+                                onClick={
                                     (e) => {
                                         info('info', 'Dentro de JaviStore tenemos los siguientes servicios: Agregar, Editar, Eliminar, Filtar, Buscar productos de tu inventario', 'Servicios Ofrecidos')
                                     }
                                 }>Servicios</a>
                             </li>
                             <li>
-                                <a href="#" className="block py-2 px-3 rounded hover:text-primario hover:bg-gray-100 lg:hover:bg-transparent transition-all duration-500">Contacto</a>
+                                <a href="https://github.com/Javier1432" className="block py-2 px-3 rounded hover:text-primario hover:bg-gray-100 lg:hover:bg-transparent transition-all duration-500">Contacto</a>
                             </li>
                             <li>
-                                <a href="#" className="block py-2 px-3 rounded hover:text-primario hover:bg-gray-100 lg:hover:bg-transparent transition-all duration-500" onClick={() => setShowModal(true)}>Agregar</a>
+                                <a className="block py-2 px-3 rounded hover:text-primario hover:bg-gray-100 lg:hover:bg-transparent transition-all duration-500 hover:cursor-pointer" onClick={() => setShowModal(true)}>Agregar</a>
                             </li>
                         </ul>
                     </div>

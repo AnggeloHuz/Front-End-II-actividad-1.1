@@ -12,12 +12,13 @@ export function cargarData() {
     }
 }
 
-export function validacion(nombre, categoria, precio, moneda, descripcion) {
+export function validacion(nombre, categoria, precio, moneda, descripcion, imagen) {
     if (nombre.trim().length == 0) return "Error"
     if (categoria.trim().length == 0) return "Error"
     if (precio.trim().length == 0) return "Error"
     if (moneda.trim().length == 0) return "Error"
     if (descripcion.trim().length == 0) return "Error"
+    if (imagen.trim().length == 0) return "Error"
 
     return
 }

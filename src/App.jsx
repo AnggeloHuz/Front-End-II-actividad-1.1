@@ -24,6 +24,7 @@ function App() {
     precio: '',
     moneda: '',
     descripcion: '',
+    imagen: ''
   });
   const [pagina, setPagina] = useState(1);
   const [porPagina, setPorPagina] = useState(8);
@@ -46,7 +47,7 @@ function App() {
 
         <div className="flex flex-col gap-6 md:flex-row">
           <Busqueda setInventario={setInventario} />
-          <Filtrado />
+          <Filtrado setInventario={setInventario} />
         </div>
 
         <section className="flex flex-col h-full">

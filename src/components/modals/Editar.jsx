@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { editar, enviarProducto, validacion } from "../../service/funciones";
 import { info } from "../../service/alerts";
+import { categorias } from "../../service/categorias";
 
 export default function Editar({ showModalEdit, setShowModalEdit, productoElegido, inventario, setInventario }) {
 
     const [idEditar, setIdEditar] = useState('');
     const [nombreEditar, setNombre] = useState('');
+    const [imagenEditar, setImagen] = useState('');
     const [categoriaEditar, setCategoria] = useState('');
     const [precioEditar, setPrecio] = useState('');
     const [monedaEditar, setMoneda] = useState('');
@@ -17,10 +19,11 @@ export default function Editar({ showModalEdit, setShowModalEdit, productoElegid
         setCategoria(productoElegido.categoria);
         setPrecio(productoElegido.precio);
         setMoneda(productoElegido.moneda);
-        setDescripcion(productoElegido.descripcion)
+        setDescripcion(productoElegido.descripcion);
+        setImagen(productoElegido.imagen)
     }, [productoElegido])
 
-    const valido = validacion(nombreEditar, categoriaEditar, precioEditar, monedaEditar, descripcionEditar)
+    const valido = validacion(nombreEditar, categoriaEditar, precioEditar, monedaEditar, descripcionEditar, imagenEditar)
 
     return (
         <>
@@ -60,13 +63,29 @@ export default function Editar({ showModalEdit, setShowModalEdit, productoElegid
                                         </div>
 
                                         <div className="flex flex-col gap-1">
+                                            <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Imágen: </label>
+                                            <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="url" placeholder="escribe la dirección url de la imagen..."
+                                                value={imagenEditar}
+                                                onChange={(e) => {
+                                                    setImagen(e.currentTarget.value)
+                                                }}
+                                            />
+                                        </div>
+
+                                        <div className="flex flex-col gap-1">
                                             <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Categoria: </label>
-                                            <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="text" placeholder="escribe la categoria del producto..."
+                                            <select className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="text" placeholder="escribe la categoria del producto..."
                                             value={categoriaEditar}
                                             onChange={(e) => {
                                                 setCategoria(e.currentTarget.value)
                                             }}
-                                            />
+                                            >
+                                                {
+                                                    categorias.map((categoria, indice) => (
+                                                        <option key={indice} value={categoria.nombre}>Categoria {categoria.nombre}</option>
+                                                    ))
+                                                }
+                                            </select>
                                         </div>
 
                                         <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:gap-16">
@@ -120,6 +139,7 @@ export default function Editar({ showModalEdit, setShowModalEdit, productoElegid
                                                         precio: precioEditar,
                                                         moneda: monedaEditar,
                                                         descripcion: descripcionEditar,
+                                                        imagen: imagenEditar
                                                     })
 
                                                     if (nuevoInventario === 'error') {

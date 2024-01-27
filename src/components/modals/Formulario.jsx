@@ -2,16 +2,18 @@ import { useEffect, useState } from "react";
 import { enviarProducto, validacion } from "../../service/funciones";
 import { info } from "../../service/alerts";
 import { v4 as uuidv4 } from 'uuid';
+import { categorias } from "../../service/categorias";
 
 export default function Formulario({ showModal, setShowModal, inventario, setInventario }) {
 
     const [nombre, setNombre] = useState('');
+    const [imagen, setImagen] = useState('');
     const [categoria, setCategoria] = useState('');
     const [precio, setPrecio] = useState('');
     const [moneda, setMoneda] = useState('');
     const [descripcion, setDescripcion] = useState('');
 
-    const valido = validacion(nombre, categoria, precio, moneda, descripcion)
+    const valido = validacion(nombre, categoria, precio, moneda, descripcion, imagen)
 
     return (
         <>
@@ -42,42 +44,60 @@ export default function Formulario({ showModal, setShowModal, inventario, setInv
 
                                         <div className="flex flex-col gap-1">
                                             <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Nombre: </label>
-                                            <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="text" placeholder="escribe el nombre del producto..." 
-                                            value={nombre}
-                                            onChange={(e) => {
-                                                setNombre(e.currentTarget.value)
-                                            }}
+                                            <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="text" placeholder="escribe el nombre del producto..."
+                                                value={nombre}
+                                                onChange={(e) => {
+                                                    setNombre(e.currentTarget.value)
+                                                }}
+                                            />
+                                        </div>
+
+                                        <div className="flex flex-col gap-1">
+                                            <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Imágen: </label>
+                                            <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="url" placeholder="escribe la dirección url de la imagen..."
+                                                value={imagen}
+                                                onChange={(e) => {
+                                                    setImagen(e.currentTarget.value)
+                                                }}
                                             />
                                         </div>
 
                                         <div className="flex flex-col gap-1">
                                             <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Categoria: </label>
-                                            <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="text" placeholder="escribe la categoria del producto..."
-                                            value={categoria}
-                                            onChange={(e) => {
-                                                setCategoria(e.currentTarget.value)
-                                            }}
-                                            />
+                                            <select className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="text" placeholder="escribe la categoria del producto..."
+                                                value={categoria}
+                                                onChange={(e) => {
+                                                    setCategoria(e.currentTarget.value)
+                                                }}
+                                            >
+                                                <option value=''></option>
+                                                {
+                                                    categorias.map((categoria, indice) => (
+                                                        <option key={indice} value={categoria.nombre}>Categoria {categoria.nombre}</option>
+                                                    ))
+                                                }
+                                            </select>
                                         </div>
 
                                         <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:gap-16">
                                             <div className="flex flex-col gap-1">
                                                 <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Precio: </label>
-                                                <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="number" min={0} placeholder="escribe el precio del producto..." 
-                                                value={precio}
-                                                onChange={(e) => {
-                                                    setPrecio(e.currentTarget.value)
-                                                }}
+                                                <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="number" min={0} placeholder="escribe el precio del producto..."
+                                                    value={precio}
+                                                    onChange={(e) => {
+                                                        setPrecio(e.currentTarget.value)
+                                                    }}
                                                 />
                                             </div>
                                             <div className="flex flex-col gap-1">
                                                 <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Moneda: </label>
                                                 <select className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full"
-                                                value={moneda}
-                                                onChange={(e) => {
-                                                    setMoneda(e.currentTarget.value)
-                                                }}
+                                                    value={moneda}
+                                                    onChange={(e) => {
+                                                        setMoneda(e.currentTarget.value)
+                                                    }}
                                                 >
+                                                    <option value=''></option>
                                                     <option value="Bs">Bs</option>
                                                     <option value="$">$</option>
                                                 </select>
@@ -86,43 +106,45 @@ export default function Formulario({ showModal, setShowModal, inventario, setInv
 
                                         <div className="flex flex-col gap-1">
                                             <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Descripcion: </label>
-                                            <textarea className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full resize-none" placeholder="describa el producto que esta agregando..." 
-                                            value={descripcion}
-                                            onChange={(e) => {
-                                                setDescripcion(e.currentTarget.value)
-                                            }}
+                                            <textarea className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full resize-none" placeholder="describa el producto que esta agregando..."
+                                                value={descripcion}
+                                                onChange={(e) => {
+                                                    setDescripcion(e.currentTarget.value)
+                                                }}
                                             />
                                         </div>
 
                                         <div className="flex flex-row-reverse">
-                                            <button 
-                                            className="font-Roboto font-semibold text-lg md:text-xl text-blanco bg-secundario rounded-xl py-2 px-8 mt-8" 
-                                            type="submit"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                if (valido === 'Error') {
-                                                    return info('error', 'No se puedo enviar el producto porque existen campos vacios. Rellenelos', 'Error al enviar formulario')
-                                                }
-                                                
-                                                setInventario([...inventario, {
-                                                    id: uuidv4(),
-                                                    nombre,
-                                                    categoria,
-                                                    precio,
-                                                    moneda,
-                                                    descripcion,
-                                                }])
+                                            <button
+                                                className="font-Roboto font-semibold text-lg md:text-xl text-blanco bg-secundario rounded-xl py-2 px-8 mt-8"
+                                                type="submit"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    if (valido === 'Error') {
+                                                        return info('error', 'No se puedo enviar el producto porque existen campos vacios. Rellenelos', 'Error al enviar formulario')
+                                                    }
 
-                                                enviarProducto([...inventario, {
-                                                    id: uuidv4(),
-                                                    nombre,
-                                                    categoria,
-                                                    precio,
-                                                    moneda,
-                                                    descripcion,
-                                                }])
-                                                
-                                                return info('success', 'Se guardo exitosamente el producto en el inventario', 'Producto guardado')
+                                                    setInventario([...inventario, {
+                                                        id: uuidv4(),
+                                                        nombre,
+                                                        categoria,
+                                                        precio,
+                                                        moneda,
+                                                        descripcion,
+                                                        imagen,
+                                                    }])
+
+                                                    enviarProducto([...inventario, {
+                                                        id: uuidv4(),
+                                                        nombre,
+                                                        categoria,
+                                                        precio,
+                                                        moneda,
+                                                        descripcion,
+                                                        imagen,
+                                                    }])
+
+                                                    return info('success', 'Se guardo exitosamente el producto en el inventario', 'Producto guardado')
                                                 }}>Agregar Producto</button>
                                         </div>
 
