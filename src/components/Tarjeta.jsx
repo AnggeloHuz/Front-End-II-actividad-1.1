@@ -1,6 +1,6 @@
 import imagen from '../assets/Producto-1.jpg'
 
-function Tarjeta({showModalDetails, setShowModalDetails}) {
+function Tarjeta({showModalDetails, setShowModalDetails, producto, setProductoElegido}) {
 
     return (
         <>
@@ -10,20 +10,20 @@ function Tarjeta({showModalDetails, setShowModalDetails}) {
                 <div className="w-full h-3/5 py-4 px-4 flex flex-col gap-4 justify-center">
 
                     <h3 className='text-center text-2xl font-Nunito text-llamativo font-bold'>
-                        Nombre Producto
+                        {producto.nombre}
                     </h3>
 
                     <div className='flex flex-col'>
                         <p className='text-lg font-Roboto text-blanco'>
-                            <b className='text-primario'>Categoria:</b> **********
+                            <b className='text-primario'>Categoria:</b> {producto.categoria}
                         </p>
 
                         <p className='text-lg font-Roboto text-blanco'>
-                            <b className='text-primario'>Precio:</b> **********$
+                            <b className='text-primario'>Precio:</b> {producto.precio}{producto.moneda}
                         </p>
 
                         <p className='text-lg font-Roboto text-blanco'>
-                            <b className='text-primario'>Cantidad:</b> **********
+                            <b className='text-primario'>Cantidad:</b> 100 Unidades
                         </p>
                     </div>
 
@@ -33,7 +33,10 @@ function Tarjeta({showModalDetails, setShowModalDetails}) {
                         </button>
 
                         <button className='w-full p-2 text-blanco text-lg font-Roboto bg-llamativo rounded-lg hover:bg-negro hover:text-llamativo transition-all duration-300'
-                        onClick={() => setShowModalDetails(true)}>
+                        onClick={() => {
+                            setProductoElegido(producto)
+                            setShowModalDetails(true)
+                        } }>
                             Ver
                         </button>
                     </div>

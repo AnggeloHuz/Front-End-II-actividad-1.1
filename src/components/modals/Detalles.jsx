@@ -1,4 +1,30 @@
-export default function Detalles({ showModalDetails, setShowModalDetails, setShowModalEdit }) {
+import Swal from 'sweetalert2'
+import { enviarProducto } from '../../service/funciones';
+import { info } from '../../service/alerts';
+
+export default function Detalles({ showModalDetails, setShowModalDetails, setShowModalEdit, productoElegido, setInventario, inventario }) {
+
+    function confirmar(texto, titulo) {
+        Swal.fire({
+            title: titulo,
+            text: texto,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#c22222",
+            cancelButtonColor: "#2595B8",
+            confirmButtonText: "Eliminar"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const nuevoInventario = inventario.filter( producto => producto.id !== productoElegido.id)
+                setInventario(nuevoInventario)
+                enviarProducto(nuevoInventario)
+
+                info('success', 'Se ha eliminado exitosamente el producto', 'Eliminación Completa')
+            } else {
+                info('info', 'Ten mucho cuidado de eliminar un producto equivocado', 'Eliminación Cancelada')
+            }
+          });
+    }
 
     return (
         <>
@@ -28,7 +54,7 @@ export default function Detalles({ showModalDetails, setShowModalDetails, setSho
                                     <div className="flex flex-col gap-4">
 
                                         <p className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-opaco">
-                                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus quaerat corrupti exercitationem, hic nam tempore explicabo ipsum doloribus numquam impedit, iusto nostrum eveniet neque sed distinctio, voluptate rerum autem quas.
+                                            {productoElegido.descripcion}
                                         </p>
 
                                         <div className="flex flex-col-reverse md:flex-row-reverse gap-4">
@@ -42,7 +68,8 @@ export default function Detalles({ showModalDetails, setShowModalDetails, setSho
                                             <button
                                                 className="font-Roboto font-semibold text-lg md:text-xl text-blanco bg-secundario hover:bg-red-700 transition-all duration-300 rounded-xl py-2 px-8 mt-8"
                                                 type="button"
-                                                onClick={(e) => {
+                                                onClick={async (e) => {
+                                                    confirmar('Eliminar Producto', '¿Estas seguro de eliminar el producto?')
                                                     setShowModalDetails(false)
                                                 }}>Eliminar Producto
                                             </button>

@@ -1,4 +1,26 @@
-export default function Editar({ showModalEdit, setShowModalEdit }) {
+import { useEffect, useState } from "react";
+import { editar, enviarProducto, validacion } from "../../service/funciones";
+import { info } from "../../service/alerts";
+
+export default function Editar({ showModalEdit, setShowModalEdit, productoElegido, inventario, setInventario }) {
+
+    const [idEditar, setIdEditar] = useState('');
+    const [nombreEditar, setNombre] = useState('');
+    const [categoriaEditar, setCategoria] = useState('');
+    const [precioEditar, setPrecio] = useState('');
+    const [monedaEditar, setMoneda] = useState('');
+    const [descripcionEditar, setDescripcion] = useState('');
+
+    useEffect(() => {
+        setIdEditar(productoElegido.id)
+        setNombre(productoElegido.nombre);
+        setCategoria(productoElegido.categoria);
+        setPrecio(productoElegido.precio);
+        setMoneda(productoElegido.moneda);
+        setDescripcion(productoElegido.descripcion)
+    }, [productoElegido])
+
+    const valido = validacion(nombreEditar, categoriaEditar, precioEditar, monedaEditar, descripcionEditar)
 
     return (
         <>
@@ -29,22 +51,42 @@ export default function Editar({ showModalEdit, setShowModalEdit }) {
 
                                         <div className="flex flex-col gap-1">
                                             <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Nombre: </label>
-                                            <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="text" placeholder="search..." />
+                                            <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="text" placeholder="escribe el nombre del producto..." 
+                                            value={nombreEditar}
+                                            onChange={(e) => {
+                                                setNombre(e.currentTarget.value)
+                                            }}
+                                            />
                                         </div>
 
                                         <div className="flex flex-col gap-1">
                                             <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Categoria: </label>
-                                            <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="text" placeholder="search..." />
+                                            <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="text" placeholder="escribe la categoria del producto..."
+                                            value={categoriaEditar}
+                                            onChange={(e) => {
+                                                setCategoria(e.currentTarget.value)
+                                            }}
+                                            />
                                         </div>
 
                                         <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:gap-16">
                                             <div className="flex flex-col gap-1">
                                                 <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Precio: </label>
-                                                <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="number" min={0} placeholder="search..." />
+                                                <input className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full" type="number" min={0} placeholder="escribe el precio del producto..." 
+                                                value={precioEditar}
+                                                onChange={(e) => {
+                                                    setPrecio(e.currentTarget.value)
+                                                }}
+                                                />
                                             </div>
                                             <div className="flex flex-col gap-1">
                                                 <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Moneda: </label>
-                                                <select className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full">
+                                                <select className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full"
+                                                value={monedaEditar}
+                                                onChange={(e) => {
+                                                    setMoneda(e.currentTarget.value)
+                                                }}
+                                                >
                                                     <option value="Bs">Bs</option>
                                                     <option value="$">$</option>
                                                 </select>
@@ -53,7 +95,12 @@ export default function Editar({ showModalEdit, setShowModalEdit }) {
 
                                         <div className="flex flex-col gap-1">
                                             <label className="text-xl md:text-2xl font-bold font-Nunito pl-4 text-secundario">Descripcion: </label>
-                                            <textarea className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full resize-none" placeholder="describa el producto que esta agregando..." />
+                                            <textarea className="rounded-3xl border-2 border-tono-bajo py-1 px-3 md:py-2 text-lg md:text-xl text-opaco w-full resize-none" placeholder="describa el producto que esta agregando..." 
+                                            value={descripcionEditar}
+                                            onChange={(e) => {
+                                                setDescripcion(e.currentTarget.value)
+                                            }}
+                                            />
                                         </div>
 
                                         <div className="flex flex-row-reverse">
@@ -62,7 +109,28 @@ export default function Editar({ showModalEdit, setShowModalEdit }) {
                                                 type="submit"
                                                 onClick={(e) => {
                                                     e.preventDefault();
-                                                    setShowModalEdit(false)
+                                                    if (valido === 'Error') {
+                                                        return info('error', 'No se puedo editar el producto porque existen campos vacios. Rellenelos', 'Error al editar formulario')
+                                                    }
+                                                    
+                                                    const nuevoInventario = editar(inventario, {
+                                                        id: idEditar,
+                                                        nombre: nombreEditar,
+                                                        categoria: categoriaEditar,
+                                                        precio: precioEditar,
+                                                        moneda: monedaEditar,
+                                                        descripcion: descripcionEditar,
+                                                    })
+
+                                                    if (nuevoInventario === 'error') {
+                                                        return info('error', 'No se encontro el producto buscado', 'Error de Edicion')
+                                                    }
+
+                                                    setInventario(nuevoInventario)
+    
+                                                    enviarProducto(nuevoInventario)
+                                                    
+                                                    return info('success', 'Se Edito exitosamente el producto en el inventario', 'Producto Editado')
                                                 }}>Editar Producto</button>
                                         </div>
 
