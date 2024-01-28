@@ -1,8 +1,10 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto funciona React + Vite y tiene por nombre JaviStore.
 
-Currently, two official plugins are available:
+Pasos para ejecutar el Proyecto:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1) Descargar el repositorio de GitHub.
+2) Ejecutar por consola el comando "npm install" en la direccion del repositorio que descargaste en tu equipo local.
+3) luego debes usar el comando por consola "npm run dev".
+4) Para finalizar debemos igresar a la direccion de la pagina por nuestro navegador preferido: (http://localhost:5173/) regularmete se utiliza este enlace.
