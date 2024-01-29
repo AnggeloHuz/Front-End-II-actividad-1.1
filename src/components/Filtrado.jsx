@@ -29,7 +29,7 @@ function Filtrado({ setInventario }) {
 
     return (
         <>
-            <div className="w-full">
+            <div className="w-full flex justify-center">
                 <form className="flex flex-col gap-1 lg:w-3/4">
                     <label className="text-2xl font-bold font-Nunito text-secundario">Filtrar: </label>
 
